@@ -1,17 +1,16 @@
 %define package_name mesa
-%global build_branch master
+%global mesa_tag MESA_TAG
+%global build_branch %{mesa_tag}
 %bcond_with patented_video_codecs 0
 %global _default_patch_fuzz 2
 #global __meson_auto_features disabled
 
-%global build_repo BUILD_REPO
+%global build_repo https://gitlab.freedesktop.org/mesa/mesa
 %define version_string VERSION_STRING
 %global version_major %(ver=%{version_string}; echo ${ver%.*.*})
+%global version_addendum VERSION_ADDENDUM
 
 %define commit COMMIT
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global commit_date CODE_DATE
-%global gitrel .%{commit_date}.%{shortcommit}
 
 %global hw_video_codecs_free vc1dec,av1dec,av1enc,vp9dec
 %global hw_video_codecs_patented ,h264dec,h264enc,h265dec,h265enc
@@ -76,14 +75,14 @@
 %global vulkan_drivers swrast%{?base_vulkan}%{?intel_platform_vulkan}%{?extra_platform_vulkan}%{?with_nvk:,nouveau}
 
 Name:           %{package_name}
-Summary:        Mesa 3D Graphics Library, git version
+Summary:        Mesa 3D Graphics Library, rc version
 Version:        %{version_string}
-Release:        0.3%{?gitrel}%{?dist}
+Release:        0.3.%{?version_addendum}%{?dist}
 
 License:        MIT
 URL:            http://www.mesa3d.org
 
-Source0:        %{build_repo}/-/archive/%{commit}.tar.gz#/mesa-%{commit}.tar.gz
+Source0:        %{build_repo}/-/archive/%{mesa-tag}/mesa-%{mesa-tag}.tar.gz?ref_type=tags
 # src/gallium/auxiliary/postprocess/pp_mlaa* have an ... interestingly worded license.
 # Source1 contains email correspondence clarifying the license terms.
 # Fedora opts to ignore the optional part of clause 2 and treat that code as 2 clause BSD.
@@ -307,7 +306,7 @@ The drivers with support for the Vulkan API.
 
 %prep
 %setup -q -c
-%autosetup -n mesa-%{commit} -p1
+%autosetup -n mesa-mesa-%{commit} -p1
 cp %{SOURCE1} docs/
 
 %build

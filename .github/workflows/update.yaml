@@ -1,0 +1,35 @@
+name: Update mesa
+on:
+  workflow_dispatch:
+  schedule:
+    # every 2 days at 2:09am (random time to avoid spikes in GitHub Actions usage)
+    - cron: "09 2 */2 * *"
+
+jobs:
+  update-mesa:
+    name: Update mesa
+    runs-on: ubuntu-latest
+    env:
+      FOUND_MESA_UPDATE: ''
+      MESA_TAG: ''
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Update
+        run: |
+          ./.github/scripts/update.sh
+          echo "FOUND_MESA_UPDATE=$FOUND_MESA_UPDATE" >> $GITHUB_ENV
+          echo "MESA_TAG=$MESA_TAG" >> $GITHUB_ENV
+
+      - name: Create Pull Request
+        if: env.FOUND_MESA_UPDATE == 'true'
+        uses: peter-evans/create-pull-request@v8
+        env:
+          SUMMARY: "[mesa] Update to ${{ env.MESA_TAG }}"
+        with:
+          title: ${{ env.SUMMARY }}
+          commit-message: ${{ env.SUMMARY }}
+          branch: "update/mesa/${{ env.MESA_TAG }}"
+          body: ${{ env.SUMMARY }}
+          assignees: adil192
