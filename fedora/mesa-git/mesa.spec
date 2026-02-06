@@ -306,7 +306,7 @@ The drivers with support for the Vulkan API.
 
 %prep
 %setup -q -c
-%autosetup -n mesa-mesa-%{commit} -p1
+%autosetup -n mesa-%{mesa_tag} -p1
 cp %{SOURCE1} docs/
 
 %build
