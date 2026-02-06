@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        // Exclude everything but `fedora/mesa-git/`
+        "fedora/a*": true,
+        "fedora/g*": true,
+        "fedora/k*": true,
+        "fedora/l*": true,
+        "fedora/x*": true
+    }
+}
