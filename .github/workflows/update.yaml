@@ -26,12 +26,22 @@ jobs:
           # Fetch tags
           git -C "$TEMP_DIR/mesa-git" fetch --tags
 
-          # Find the latest tag, e.g. `mesa-26.0.0-rc3`.
-          # List all tags, sort by version, and take the last one
-          MESA_TAG=$(git -C "$TEMP_DIR/mesa-git" tag -l 'mesa-*' | sort -V | tail -n1)
+          # Find the latest tag, e.g. `mesa-26.0.0-rc3`...
+          # Get the 10 latest tags
+          ALL_TAGS=$(git -C "$TEMP_DIR/mesa-git" tag -l 'mesa-*' --sort creatordate | tail -n10)
+          # Get latest stable release (not release candidate)
+          LATEST_FINAL=$(echo "$ALL_TAGS" | grep -v -- '-rc' | tail -n1)
+          # Get latest release candidate
+          LATEST_RC=$(echo "$ALL_TAGS" | tail -n1)
+          # If that was a release candidate of LATEST_FINAL, use LATEST_FINAL
+          if [[ "$LATEST_RC" == "$LATEST_FINAL-rc"* ]]; then
+            MESA_TAG="$LATEST_FINAL"
+          else
+            MESA_TAG="$LATEST_RC"
+          fi
           echo "MESA_TAG=$MESA_TAG" >> $GITHUB_ENV
-          echo "Latest tag: $MESA_TAG ($COMMIT)"
           COMMIT=$(git -C "$TEMP_DIR/mesa-git" rev-parse "$MESA_TAG")
+          echo "Latest tag: $MESA_TAG ($COMMIT)"
 
           # Parse the tag.
           STRIPPED="${MESA_TAG#mesa-}" # e.g. `26.0.0-rc3`
