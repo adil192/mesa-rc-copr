@@ -1,5 +1,5 @@
 %define package_name mesa
-%global mesa_tag mesa-26.0.0-rc3
+%global mesa_tag mesa-26.0.0
 %global build_branch %{mesa_tag}
 %bcond_with patented_video_codecs 0
 %global _default_patch_fuzz 2
@@ -8,9 +8,9 @@
 %global build_repo https://gitlab.freedesktop.org/mesa/mesa
 %define version_string 26.0.0
 %global version_major %(ver=%{version_string}; echo ${ver%.*.*})
-%global version_addendum rc3
+%global version_addendum 26.0.0
 
-%define commit 078a8341db860f4a9f3a0d47f82534cb2a7cf11d
+%define commit 0b20966c13e3f92f5b0ac0c1de9339543d46a4f2
 
 %global hw_video_codecs_free vc1dec,av1dec,av1enc,vp9dec
 %global hw_video_codecs_patented ,h264dec,h264enc,h265dec,h265enc
