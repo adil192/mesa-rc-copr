@@ -28,7 +28,7 @@ jobs:
 
           # Find the latest tag, e.g. `mesa-26.0.0-rc3`...
           # Get the 10 latest tags
-          ALL_TAGS=$(git -C "$TEMP_DIR/mesa-git" tag -l 'mesa-*' --sort creatordate | tail -n10)
+          ALL_TAGS=$(git -C "$TEMP_DIR/mesa-git" tag -l 'mesa-*' --sort creatordate | tail -n10 | sort -V)
           # Get latest stable release (not release candidate)
           LATEST_FINAL=$(echo "$ALL_TAGS" | grep -v -- '-rc' | tail -n1)
           # Get latest release candidate
