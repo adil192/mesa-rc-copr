@@ -8,7 +8,7 @@
 %global build_repo https://gitlab.freedesktop.org/mesa/mesa
 %define version_string 26.0.0
 %global version_major %(ver=%{version_string}; echo ${ver%.*.*})
-%global version_addendum 26.0.0
+%global version_addendum 1
 
 %define commit 0b20966c13e3f92f5b0ac0c1de9339543d46a4f2
 
@@ -77,7 +77,7 @@
 Name:           %{package_name}
 Summary:        Mesa 3D Graphics Library, rc version
 Version:        %{version_string}
-Release:        0.3.%{?version_addendum}%{?dist}
+Release:        %{?version_addendum}%{?dist}
 
 License:        MIT
 URL:            http://www.mesa3d.org

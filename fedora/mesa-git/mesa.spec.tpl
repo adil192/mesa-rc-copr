@@ -77,7 +77,7 @@
 Name:           %{package_name}
 Summary:        Mesa 3D Graphics Library, rc version
 Version:        %{version_string}
-Release:        0.3.%{?version_addendum}%{?dist}
+Release:        %{?version_addendum}%{?dist}
 
 License:        MIT
 URL:            http://www.mesa3d.org

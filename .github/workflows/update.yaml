@@ -46,8 +46,11 @@ jobs:
           # Parse the tag.
           STRIPPED="${MESA_TAG#mesa-}" # e.g. `26.0.0-rc3`
           VERSION_STRING=${STRIPPED%%-*} # e.g. `26.0.0`
-          VERSION_ADDENDUM=${STRIPPED#${VERSION_STRING}-} # e.g. `rc3`
-          VERSION_ADDENDUM=${VERSION_ADDENDUM:-release} # `release` if empty (i.e. not release candidate)
+          if [[ "$STRIPPED" == *-* ]]; then
+            VERSION_ADDENDUM="0.${STRIPPED#*-}" # e.g. `0.rc3`
+          else
+            VERSION_ADDENDUM=1 # not a release candidate
+          fi
           echo "VERSION_STRING: $VERSION_STRING"
           echo "VERSION_ADDENDUM: $VERSION_ADDENDUM"
 
