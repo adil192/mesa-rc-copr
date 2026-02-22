@@ -10,9 +10,8 @@ jobs:
     name: Update mesa
     runs-on: ubuntu-latest
     env:
-      BUILD_REPO: 'https://gitlab.freedesktop.org/mesa/mesa.git'
-      FOUND_MESA_UPDATE: ''
-      MESA_TAG: ''
+      FOUND_MESA_UPDATE: ""
+      MESA_TAG: ""
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -20,8 +19,9 @@ jobs:
       - name: Update
         run: |
           # Clone the repo into a temporary directory
+          BUILD_REPO="https://gitlab.freedesktop.org/mesa/mesa.git"
           TEMP_DIR=$(mktemp -d /tmp/mesa-rc-copr.XXXXX)
-          git clone "$BUILD_REPO" "$TEMP_DIR/mesa-git"
+          git clone --bare --depth=1 --no-single-branch --filter=blob:none "$BUILD_REPO" "$TEMP_DIR/mesa-git"
 
           # Fetch tags
           git -C "$TEMP_DIR/mesa-git" fetch --tags
